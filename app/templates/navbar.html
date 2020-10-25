@@ -1,0 +1,55 @@
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OneMinutePitch</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="nav-item active">
+                    <a href="{{url_for('main.all')}}">Home<span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{url_for('main.pick_up_line')}}">Pick Up Line</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('main.interview')}}">Interview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('main.product')}}">Product</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('main.promotion')}}">Promotion</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('main.life')}}">Life</a>
+                </li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li class="dropdown"><a href="#" class="dropdown-toggle text-light" data-toggle="dropdown"><i
+                            class="fa fa-user text-warning"></i><strong class="ml-2">&nbsp;<b style="font-size: 18px;">{{current_user.username}}</b> </strong> <b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu bg-dark text-center">
+                        <li><a href="{{url_for('main.profile',uname=current_user.username)}}" class="text-light "><i
+                                    class="icon-envelope"></i><strong>Your profile</strong></a></li>
+                        <div class="dropdown-divider"></div>
+                        <li><a href="{{url_for('auth.logout')}}" class="text-light "><i
+                                    class="fa fa-sign-out mr-2"></i><strong>Logout</strong></a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="{{url_for('auth.login')}}" class="text-light"><i
+                            class="fa fa-sign-in mr-2"></i><strong>Sign In</strong></a></li>
+                {%endif%}
+            </ul>
+        </div>
+    </div>
+</nav>

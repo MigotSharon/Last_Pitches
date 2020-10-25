@@ -1,0 +1,31 @@
+{% extends 'base.html'%}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/view_comments.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <a href="{{url_for('main.index')}}">
+        <button type="button" class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-chevron-left">Back</span> 
+        </button>
+        <h3 style="color:black;">Comments:</h3>
+    </a>
+
+    <h6> &nbsp; &nbsp; <span style="font-weight:bolder">Found :</span> &nbsp; <span
+            style="font-family:Bellefair; font-size:18px;">{{ comments | count }} Comments</span></h6>
+    <hr>
+    {% for comment in comments[::-1] %}
+    <div class="panel">
+        <p style="font-family:Bellefair; font-size:20px; padding:10px; text-align:center;">{{comment.comment}}</p>
+        <h5>&nbsp;&nbsp;Comment by: &nbsp;<span
+                style="color:black;font-family:Bellefair; font-size:20px;">{{comment.username}}</span></h5>
+    </div>
+    {%endfor%}
+
+</div>
+
+{% endblock %}

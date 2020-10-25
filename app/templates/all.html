@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %} 
+{% import 'macros.html' as macro%}
+
+<!-- styles block -->
+
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/all.css')}}">
+{% endblock %}
+
+<!-- Content block -->
+{% block content %}
+<div class="container">
+    <div class="col-md-6 mx-auto">
+        <a  class="btn btn-warning btn-sm text-light display-4" href="{{url_for('main.new_pitch')}}">Add A Pitch</a>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class=" col-md-8 mx-auto bg-light all-pitches" style="margin-left: 12%;">
+            {{macro.displayPitches(pitches)}}
+        </div>
+    </div>
+</div>
+{% endblock%}
