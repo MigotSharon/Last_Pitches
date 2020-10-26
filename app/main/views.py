@@ -1,13 +1,12 @@
 from flask import render_template,redirect,url_for, abort,request
 from . import main
+
 from .forms import CommentsForm ,UpdateProfile, PitchForm, UpvoteForm, DownvoteForm
 from ..models import User,Pitch, Comment,PitchCategory,Downvote,Upvote
 from flask_login import login_required, current_user
 from .. import db, photos
 import markdown2
-
    
-
 # Views
 @main.route('/')
 def index():
@@ -15,30 +14,27 @@ def index():
     View root page function that returns the index page and its data
     '''
     title = 'Home - qWelcome this is where you belong'
-
     
     pitches= Pitch.get_all_pitches()  
-
     return render_template('index.html', title = title, pitches= pitches)
-
 @main.route('/all')
 def all():
     '''
     View root page function that returns the index page and its data
     '''
+    title = 'Home - Welcome this is where you belong'
     title = 'Welcome'
 
-    
+
     pitches= Pitch.get_all_pitches() 
-
     return render_template('all.html', title = title, pitches= pitches)
-
 @main.route('/inteview/pitches/')
 def interview():
     '''
     View root page function that returns the index page and its data
     '''
     pitches= Pitch.get_all_pitches()
+    title = 'Home - Welcome to The best Pitching Website Online'  
     title = 'Pitch Website'  
     return render_template('interview.html', title = title, pitches= pitches )
 
@@ -48,34 +44,25 @@ def pick_up_line():
     View root page function that returns the index page and its data
     '''
     title = 'Pick Up Lines'
-
     pitches= Pitch.get_all_pitches()
     user = User.query.all()
-
     return render_template('pick_up_lines.html', title = title, pitches= pitches, user=user )
-
 @main.route('/promotion/pitches/')
 def promotion():
     '''
     View root page function that returns the index page and its data
     '''
     title = 'Promotion Pitches'
-
     pitches= Pitch.get_all_pitches()
-
     return render_template('promotion.html', title = title, pitches= pitches )
-
 @main.route('/life/pitches/')
 def life():
     '''
     View root page function that returns the index page and its data
     '''
     title = 'Promotion Pitches'
-
     pitches= Pitch.get_all_pitches()
-
     return render_template('life.html', title = title, pitches= pitches )
-
 @main.route('/product/pitches/')
 def product():
     '''
@@ -85,20 +72,15 @@ def product():
     pitches= Pitch.get_all_pitches()
     return render_template('product.html', title = title, pitches= pitches )
  
-
 @main.route('/pitch/<int:pitch_id>')
 def pitch(pitch_id):
-
     '''
     View pitch page function that returns the pitch details page and its data
     '''
     found_pitch= Pitch.query.get(pitch_id)
     title = pitch_id
     pitch_comments = Comment.get_comments(pitch_id)
-
     return render_template('pitch.html',title= title ,found_pitch= found_pitch, pitch_comments= pitch_comments)
-
-
 @main.route('/pitch/new/', methods = ['GET','POST'])
 @login_required
 def new_pitch():
@@ -107,33 +89,25 @@ def new_pitch():
     '''
     form = PitchForm()
     my_upvotes = Upvote.query.filter_by(pitch_id = Pitch.id)
-
     if category is None:
         abort( 404 )
-
     if form.validate_on_submit():
         pitch= form.pitch.data
         category_id = form.category_id.data
         new_pitch= Pitch(pitch= pitch, category_id= category_id)
-
         new_pitch.save_pitch()
         return redirect(url_for('main.all'))
-
     return render_template('new_pitch.html', new_pitch_form= form, category= category)
-
 @main.route('/category/<int:id>')
 def category(id):
     '''
     function that returns pitches based on the entered category id
     '''
     category = PitchCategory.query.get(id)
-
     if category is None:
         abort(404)
-
     pitches_in_category = Pitch.get_pitch(id)
     return render_template('category.html' ,category= category, pitches= pitches_in_category)
-
 @main.route('/pitch/comments/new/<int:id>',methods = ['GET','POST'])
 @login_required
 def new_comment(id):
@@ -145,7 +119,6 @@ def new_comment(id):
         return redirect(url_for('main.all'))
     
     return render_template('new_comment.html',comment_form=form, vote_form= vote_form)
-
 @main.route('/user/<uname>/update/pic',methods= ['POST'])
 @login_required
 def update_pic(uname):
@@ -156,35 +129,26 @@ def update_pic(uname):
         user.profile_pic_path = path 
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
-
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
-
     if user is None:
         abort(404)
-
     return render_template("profile/profile.html", user = user)
-
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
 def update_profile(uname):
     user = User.query.filter_by(username = uname).first()
     if user is None:
         abort(404)
-
     form = UpdateProfile()
-
     if form.validate_on_submit():
         user.bio = form.bio.data
-
         db.session.add(user)
         db.session.commit()
-
         return redirect(url_for('.profile',uname=user.username))
     
     return render_template('profile/update.html',form =form)
-
 @main.route('/view/comment/<int:id>')
 def view_comments(id):
     '''
@@ -192,9 +156,6 @@ def view_comments(id):
     '''
     comments = Comment.get_comments(id)
     return render_template('view_comments.html',comments = comments, id=id)
-
-
-
 @main.route('/test/<int:id>')  
 def test(id):
     '''
@@ -202,7 +163,6 @@ def test(id):
     '''
     pitch =Pitch.query.filter_by(id=1).first()
     return render_template('test.html',pitch= pitch)
-
 @main.route('/pitch/upvote/<int:pitch_id>/upvote', methods = ['GET', 'POST'])
 @login_required
 def upvote(pitch_id):
@@ -212,12 +172,9 @@ def upvote(pitch_id):
     
     if Upvote.query.filter(Upvote.user_id==user.id,Upvote.pitch_id==pitch_id).first():
         return  redirect(url_for('main.all'))
-
-
     new_upvote = Upvote(pitch_id=pitch_id, user = current_user)
     new_upvote.save_votes()
     return redirect(url_for('main.all'))
-
 @main.route('/pitch/downvote/<int:pitch_id>/downvote', methods = ['GET', 'POST'])
 @login_required
 def downvote(pitch_id):
@@ -227,7 +184,6 @@ def downvote(pitch_id):
     
     if Downvote.query.filter(Downvote.user_id==user.id,Downvote.pitch_id==pitch_id).first():
         return  redirect(url_for('main.all'))
-
     new_downvote = Downvote(pitch_id=pitch_id, user = current_user)
     new_downvote.save_votes()
     return redirect(url_for('main.all'))
