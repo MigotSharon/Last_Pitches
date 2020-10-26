@@ -1,0 +1,3 @@
+Hello {{user.username}}
+Welcome to One Minute Pitch site
+We have just seen you have signed up for our application and want to welcome. Please feel free to add more pitches and comment on pitches posted by other users
