@@ -1,8 +1,23 @@
+<div class="text-center" style="background-image: url('./photos/three.jpeg');height: 106.5vh;background-repeat: no-repeat;background-size: cover;">
+  {% extends 'base.html' %}
+  {% import 'bootstrap/wtf.html' as wtf %}
+  {% block content %}
+  <br>
+  <br>
+  <div class="container text-center">
+      {{wtf.quick_form(form)}}
+  </div>
+  {% endblock %}
+</div> 
 {% extends 'base.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
 <div class="container">
-  {{wtf.quick_form(form)}}
+{{wtf.quick_form(form)}}
 </div>
-{% endblock %}
+{% endblock %} 
+
+
+
+

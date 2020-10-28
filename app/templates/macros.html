@@ -4,11 +4,16 @@
 <div class="panel bg-light text-center"
   style="box-shadow: 5px 5px 5px 5px #ffb33f;padding: 10px;">
   <div class="cards">
+    <div class="card-header">
+      <h3>{{pitch.title}}</h3>
+    </div>
     <div class="card-body text-info">
       <h3 class="card-title">{{pitch.pitch}}</h3>
       <div class="card-body text">
         <blockquote class="blockquote mb-0">
-          <footer class="blockquote-footer bg-transparent border-success" style="font-size: 20px;"><cite title="Source Title" style="font-size: 20px">Publish
+          <footer class="blockquote-footer bg-transparent border-success" style="font-size: 20px;">Posted
+            by:&nbsp;&nbsp;{{pitch.username}}
+            <br><cite title="Source Title" style="font-size: 20px">Publish
               date:&nbsp;&nbsp;{{pitch.date.strftime('%Y-%m-%d')}}</cite></footer>
         </blockquote>
       </div>
@@ -36,9 +41,12 @@
 <div class="container text-center">
   <div class="thumbnail mt-4 panel bg-light text-cente"
     style="box-shadow: 5px 5px 5px 5px #ffb33f;padding: 10px; max-width: 100rem;justify-content: center;">
+    <h4 class="card-header">{{pitch.title}}</h4>
     <div class="card-body">
       <p style="font-size: 20px;"> Posted on&nbsp;:&nbsp;&nbsp;{{pitch.date.strftime('%Y-%m-%d')}}</p>
       <h4 class="text-center" style="font-size: 20px;"> Pitch&nbsp;:&nbsp;&nbsp;{{pitch.pitch}}</h4>
+      <footer class="blockquote-footer text-center" style="font-size: 18px;"> Posted by: &nbsp;&nbsp;{{pitch.username | capitalize}}
+      </footer>
       <br>
       <div style="font-size: 25px;">
         <span class="footer"> <a href="{{url_for('main.upvote',pitch_id = pitch.id)}}"><i class="fa fa-thumbs-up"
@@ -59,4 +67,4 @@
 </div>
 {% endif%}
 {% endfor %}
-{% endmacro%}
+{% endmacro%} 
